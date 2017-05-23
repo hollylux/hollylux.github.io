@@ -29,6 +29,7 @@
   <script src="https://d3js.org/d3.v4.min.js"></script>
   <script>
     var cirFillColor = 'green';
+    /*
     var treeData = {
       "name": "Bruce's Stack",
       "children": [{
@@ -192,7 +193,7 @@
         },
 
       ]
-    };
+    };*/
 
     // Set the dimensions and margins of the diagram
     var margin = {
@@ -224,16 +225,19 @@
     var treemap = d3.tree().size([height, width]);
 
     // Assigns parent, children, height, depth
-    root = d3.hierarchy(treeData, function(d) {
-      return d.children;
+    d3.json("data/skills.json", function() {
+      root = d3.hierarchy(treeData, function(d) {
+        return d.children;
+      });
+      root.x0 = height / 2;
+      root.y0 = 0;
+
+      // Collapse after the second level
+      root.children.forEach(collapse);
+
+      update(root);
     });
-    root.x0 = height / 2;
-    root.y0 = 0;
 
-    // Collapse after the second level
-    root.children.forEach(collapse);
-
-    update(root);
 
     // Collapse the node and all it's children
     function collapse(d) {

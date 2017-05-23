@@ -225,7 +225,7 @@
     var treemap = d3.tree().size([height, width]);
 
     // Assigns parent, children, height, depth
-    d3.json("data/skills.json", function() {
+    d3.json("data/skills.json", function(treeData) {
       root = d3.hierarchy(treeData, function(d) {
         return d.children;
       });
